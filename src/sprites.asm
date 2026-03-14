@@ -33,7 +33,7 @@ zp_sprite_pointer: .res 2
 SetPosition:
 ; ----------------------------------- ;
 ; get the relevant OAM address where this particular sprite should be placed
-  lda table_sprite_sprite_offsets, x
+  lda TableSpriteOffsets, x
   sta zp_sprite_pointer
   lda #$02
   sta zp_sprite_pointer+1
@@ -98,7 +98,7 @@ done:
 
 ; ----------------------------------- ;
 ; get the relevant OAM address where this particular sprite should be placed
-  lda table_sprite_sprite_offsets, x
+  lda TableSpriteOffsets, x
   sta zp_sprite_pointer
   lda #$02
   sta zp_sprite_pointer+1
@@ -106,7 +106,7 @@ done:
   lda sprite_flags, x
   and #%00000111
   tay
-  lda table_sprite_sprites, y
+  lda TableSpriteGFX, y
 
   ldy #1                ; draw one 8x8 sprite
   sta (zp_sprite_pointer), y
@@ -117,7 +117,7 @@ done:
   lda sprite_flags, x
   and #%00000111
   tay
-  lda table_sprite_palettes, y
+  lda TableSpritePalettes, y
   ldy #2
   sta (zp_sprite_pointer), y
 ; ----------------------------------- ;
@@ -134,11 +134,11 @@ done:
 
 .segment "RODATA"
 
-table_sprite_palettes:
+TableSpritePalettes:
   .byte $02,$01,$02,$02,$02,$02,$02,$02,$02,$02,$01,$02,$02,$02,$02,$02
-table_sprite_sprites:
+TableSpriteGFX:
   .byte $01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01,$01
-table_sprite_sprite_offsets:
+TableSpriteOffsets:
   .byte $00,$10,$20,$30,$40,$50,$60,$70,$80,$90,$A0,$B0,$C0,$D0,$E0,$F0
 
 XStartPos:

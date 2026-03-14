@@ -5,7 +5,7 @@ file	id=1,name="src/constants.inc",size=1078,mtime=0x69B5153F,mod=0
 file	id=2,name="src/header.inc",size=380,mtime=0x66DF711A,mod=0
 file	id=3,name="src/reset.asm",size=816,mtime=0x69B5CA7F,mod=0
 file	id=4,name="src/controllers.asm",size=446,mtime=0x69B52B51,mod=0
-file	id=5,name="src/sprites.asm",size=2643,mtime=0x69B5CE4F,mod=0
+file	id=5,name="src/sprites.asm",size=2600,mtime=0x69B5D327,mod=0
 file	id=6,name="graphics.chr",size=8192,mtime=0x6991E0B8,mod=0
 line	id=0,file=5,line=74,span=120
 line	id=1,file=0,line=25,span=176
@@ -621,9 +621,9 @@ sym	id=12,name="buttons_held",addrsize=zeropage,size=1,scope=0,def=72,ref=156+82
 sym	id=13,name="sleeping",addrsize=zeropage,size=1,scope=0,def=176,ref=90+35+313,val=0x63,seg=4,type=lab
 sym	id=14,name="YStartPos",addrsize=absolute,scope=0,def=213,ref=166,val=0x8240,seg=1,type=lab
 sym	id=15,name="XStartPos",addrsize=absolute,scope=0,def=101,ref=59,val=0x8230,seg=1,type=lab
-sym	id=16,name="table_sprite_sprite_offsets",addrsize=absolute,scope=0,def=140,ref=67+222,val=0x8220,seg=1,type=lab
-sym	id=17,name="table_sprite_sprites",addrsize=absolute,scope=0,def=174,ref=15,val=0x8210,seg=1,type=lab
-sym	id=18,name="table_sprite_palettes",addrsize=absolute,scope=0,def=192,ref=193,val=0x8200,seg=1,type=lab
+sym	id=16,name="TableSpriteOffsets",addrsize=absolute,scope=0,def=140,ref=67+222,val=0x8220,seg=1,type=lab
+sym	id=17,name="TableSpriteGFX",addrsize=absolute,scope=0,def=174,ref=15,val=0x8210,seg=1,type=lab
+sym	id=18,name="TableSpritePalettes",addrsize=absolute,scope=0,def=192,ref=193,val=0x8200,seg=1,type=lab
 sym	id=19,name="DrawSprite",addrsize=absolute,size=48,scope=0,def=77,ref=13,val=0x80C8,seg=0,type=lab
 sym	id=20,name="done",addrsize=absolute,scope=4,def=253,val=0x80C1,seg=0,type=lab
 sym	id=21,name="NextSprite",addrsize=absolute,scope=4,def=16,ref=291,val=0x80B7,seg=0,type=lab
