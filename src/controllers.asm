@@ -3,7 +3,7 @@
 .segment "CODE"
 .export read_controller
 .proc read_controller
-  php  ; save registers
+  php
   pha
   txa
   pha
@@ -27,7 +27,7 @@ get_buttons:
   and buttons_held
   sta buttons_pressed
 
-  pla ; restore registers
+  pla
   tay
   pla
   tax

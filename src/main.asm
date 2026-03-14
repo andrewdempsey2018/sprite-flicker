@@ -2,16 +2,12 @@
 .include "header.inc"
 .include "reset.asm"
 .include "controllers.asm"
+.include "sprites.asm"
 
 .segment "ZEROPAGE"
 sleeping: .res 1
 buttons_held: .res 1
 buttons_pressed: .res 1
-
-sprite_x: .res NUM_SPRITES
-sprite_y: .res NUM_SPRITES
-sprite_frame: .res NUM_SPRITES
-sprite_palette: .res NUM_SPRITES
 
 .segment "CODE"
 
@@ -20,7 +16,7 @@ sprite_palette: .res NUM_SPRITES
 .endproc
 
 .proc nmi_handler
-  ; save registers
+
   php
   pha
   txa
@@ -46,7 +42,6 @@ sprite_palette: .res NUM_SPRITES
   lda #$00
   sta sleeping
 
-  ; restore registers and return
   pla
   tay
   pla
@@ -58,7 +53,7 @@ sprite_palette: .res NUM_SPRITES
 .endproc
 
 .proc clear_oam
-  php  ; save registers
+  php
   pha
   txa
   pha
@@ -75,7 +70,7 @@ sprite_palette: .res NUM_SPRITES
 	inx
 	bne @clear_oam
 
-  pla ; restore registers
+  pla
   tay
   pla
   tax
@@ -109,7 +104,21 @@ vblankwait:       ; wait for another vblank before continuing
   bit PPUSTATUS
   bpl vblankwait
 
+; ----------------------------------- ;
+; init sprite positions
+  ldx #$00
+:
+  lda XStartPos, x
+  sta sprite_x, x
+  lda YStartPos, x
+  sta sprite_y, x
+  inx
+  cpx #$10
+  bne :-
+; ----------------------------------- ;
+
 mainloop:
+  jsr ProcessSprites
 
 done:
   ;loop
