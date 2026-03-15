@@ -21,7 +21,7 @@ vblankwait:
 	ldx #$00
 	lda #$FF
 clear_oam:
-	sta PPUCTRL, x ; set sprite y-positions off the screen
+	sta PPUCTRL, x        ; set sprite y-positions off the screen
 	inx
 	inx
 	inx
@@ -44,6 +44,8 @@ ResetSpriteSOA:
   sta timer
   sta oam_address
   sta oam_address+1
+  sta zp_nametable_pointer
+  sta zp_nametable_pointer+1
 
 vblankwait2:
   bit PPUSTATUS

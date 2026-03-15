@@ -3,6 +3,7 @@
 .include "reset.asm"
 .include "controllers.asm"
 .include "sprites.asm"
+.include "load_nametable.asm"
 
 .segment "ZEROPAGE"
 sleeping: .res 1
@@ -17,7 +18,6 @@ timer: .res 1
 .endproc
 
 .proc nmi_handler
-
   php
   pha
   txa
@@ -94,10 +94,6 @@ timer: .res 1
   ldx #$00
   stx PPUADDR
 
-vblankwait:             ; wait for another vblank before continuing
-  bit PPUSTATUS
-  bpl vblankwait
-
   ldx #$00
 load_palettes:
   lda palettes, x
@@ -106,16 +102,20 @@ load_palettes:
   cpx #$20              ; 32 colours to load
   bne load_palettes
 
-  lda #%10010000        ; turn on NMIs, sprites use first pattern table
-  sta PPUCTRL
-  lda #%00011110        ; turn on screen
-  sta PPUMASK
+  ; ----------------------------------- ;
+  ; init background tiles
+  lda #<background
+  sta zp_nametable_pointer
+  lda #>background
+  sta zp_nametable_pointer+1
+  jsr LoadNametable
+  ; ----------------------------------- ;
 
   ; ----------------------------------- ;
   ; prep sprites
   ldx #$00
 PrepSprites:
-  lda TableSpriteAttributes, x
+  lda TableSpriteInformation, x
   sta sprite_palette, x
   lda TableXStartPos, x
   sta sprite_x, x
@@ -126,6 +126,18 @@ PrepSprites:
   inx
   cpx #$10
   bne PrepSprites
+  ; ----------------------------------- ;
+
+vblankwait:             ; wait for another vblank before continuing
+  bit PPUSTATUS
+  bpl vblankwait
+
+  ; ----------------------------------- ;
+  ; turn on rendering
+  lda #%10010000        ; turn on NMIs, sprites use first pattern table
+  sta PPUCTRL
+  lda #%00011110        ; turn on screen
+  sta PPUMASK
   ; ----------------------------------- ;
 
 mainloop:
@@ -150,12 +162,12 @@ sleep:
 .segment "RODATA"
 
 palettes:
-.byte $0f,$00,$10,$30   ; background
-.byte $0f,$01,$21,$31
-.byte $0f,$06,$16,$26
-.byte $0f,$09,$19,$29
+  .byte $0f,$00,$10,$30   ; background
+  .byte $0f,$01,$21,$31
+  .byte $0f,$06,$16,$26
+  .byte $0f,$09,$19,$29
 
-.byte $0f,$00,$10,$30   ; sprites
-.byte $0f,$01,$21,$31
-.byte $0f,$06,$16,$26
-.byte $0f,$09,$19,$29
+  .byte $0f,$00,$10,$30   ; sprites
+  .byte $0f,$01,$21,$31
+  .byte $0f,$06,$16,$26
+  .byte $0f,$09,$19,$29

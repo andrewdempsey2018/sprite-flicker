@@ -20,19 +20,11 @@ oam_address: .res 2
   pha
   tya
   pha
-  
-  ;ldx #$00
-  ;lda #$18
-  ;sta sprite_gfx, x
-  ;lda #50
-  ;sta sprite_x, x
-  ;lda #150
-  ;sta sprite_y, x
 
   ; ----------------------------------- ;
   ; animate sprites
   lda timer
-  and #%00011111        ; if it is a multiple of 32
+  and #%00011111         ; if it is a multiple of 32
   bne :+
   lda zp_anim_offset
   eor #%00000100
@@ -41,9 +33,7 @@ oam_address: .res 2
   ; ----------------------------------- ;
 
   ; ----------------------------------- ;
-  ; sprite 0
-  ; update OAM
-  ; OAM: y, gfx, palette, x
+  ; update OAM (OAM order: y, gfx, palette, x)
 
   ldx #$00              ; sprite index
   ldy #$00              ; oam index
@@ -142,7 +132,7 @@ LoopThroughSprites:
 
 .segment "RODATA"
 
-TableSpriteAttributes:
+TableSpriteInformation:
   .byte %00000000,%00000001,%00000010,%00000011,%00000010,%00000011,%0000001,%00000000
   .byte %00000001,%00000010,%00000011,%00000000,%00000000,%00000001,%00000010,%00000011
 TableXStartPos:
