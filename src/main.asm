@@ -114,20 +114,18 @@ load_palettes:
   ; ----------------------------------- ;
   ; prep sprites
   ldx #$00
-  lda #$18
-  sta sprite_gfx, x
-  lda #50
+PrepSprites:
+  lda TableSpritePalettes, x
+  sta sprite_palette, x
+  lda TableXStartPos, x
   sta sprite_x, x
-  lda #150
+  lda TableYStartPos, x
   sta sprite_y, x
-
-  ldx #$01
-  lda #$10
+  lda TableSpriteGFX, x
   sta sprite_gfx, x
-  lda #20
-  sta sprite_x, x
-  lda #100
-  sta sprite_y, x
+  inx
+  cpx #$10
+  bne PrepSprites
   ; ----------------------------------- ;
 
 mainloop:
@@ -135,7 +133,7 @@ mainloop:
 
 done:
   inc sleeping
-  
+
 sleep:
   lda sleeping
   bne sleep
