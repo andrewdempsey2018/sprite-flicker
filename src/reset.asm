@@ -28,24 +28,16 @@ clear_oam:
 	inx
 	bne clear_oam
 
-  ; ----------------------------------- ;
-  ; reset ram
   ldx #$00
   lda #$00
-ResetRam:
+ResetSpriteSOA:
   sta sprite_x, x
   sta sprite_y, x
-  sta sprite_frame, x
   sta sprite_palette, x
-  sta sprite_flags, x
+  sta sprite_gfx, x
   inx
-  cpx #NUM_SPRITES
-  bne ResetRam
-
-  lda #$00
-  sta current_sprite
-  sta zp_sprite_pointer
-  ; ----------------------------------- ;
+  cpx #$10
+  bne ResetSpriteSOA
 
 vblankwait2:
   bit PPUSTATUS

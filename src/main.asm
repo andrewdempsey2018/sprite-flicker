@@ -32,13 +32,14 @@ buttons_pressed: .res 1
 
   jsr read_controller
 
-  ;This is the PPU clean up section, so rendering the next frame starts properly.
-  lda #%10010000   ; enable NMI, sprites from Pattern Table 0, background from Pattern Table 1
+; ----------------------------------- ;
+; PPU clean up section
+  lda #%10010000        ; enable NMI, sprites from Pattern Table 0, background from Pattern Table 1
   sta PPUCTRL
-  lda #%00011110   ; enable sprites, enable background, no clipping on left side
+  lda #%00011110        ; enable sprites, enable background, no clipping on left side
   sta PPUMASK
+; ----------------------------------- ;
 
-  ;;
   lda #$00
   sta sleeping
 
@@ -63,7 +64,7 @@ buttons_pressed: .res 1
 	ldx #$00
 	lda #$F8
 @clear_oam:
-	sta $0200, x ; set sprite y-positions off the screen
+	sta $0200, x          ; set sprite y-positions off the screen
 	inx
 	inx
 	inx
@@ -81,44 +82,34 @@ buttons_pressed: .res 1
 .endproc
 
 .proc main
+  lda #0                ; turn off rendering before initialisation
+  sta PPUMASK
+
   ldx PPUSTATUS
   ldx #$3f
   stx PPUADDR
   ldx #$00
   stx PPUADDR
 
-load_palettes:
-  lda palettes,X
-  sta PPUDATA
-  inx
-  cpx #$20 ; there are 32 colours to load
-  bne load_palettes
-
-  lda #%10010000  ; turn on NMIs, sprites use first pattern table
-  sta PPUCTRL
-  lda #%00011110  ; turn on screen
-  sta PPUMASK
-  ;;
-
-vblankwait:       ; wait for another vblank before continuing
+vblankwait:             ; wait for another vblank before continuing
   bit PPUSTATUS
   bpl vblankwait
 
-; ----------------------------------- ;
-; init sprite positions
   ldx #$00
-:
-  lda XStartPos, x
-  sta sprite_x, x
-  lda YStartPos, x
-  sta sprite_y, x
+load_palettes:
+  lda palettes, x
+  sta PPUDATA
   inx
-  cpx #$10
-  bne :-
-; ----------------------------------- ;
+  cpx #$20              ; 32 colours to load
+  bne load_palettes
+
+  lda #%10010000        ; turn on NMIs, sprites use first pattern table
+  sta PPUCTRL
+  lda #%00011110        ; turn on screen
+  sta PPUMASK
 
 mainloop:
-  jsr ProcessSprites
+  jsr DrawSprites
 
 done:
   ;loop
@@ -139,12 +130,12 @@ sleep:
 .segment "RODATA"
 
 palettes:
-  .byte $0f,$00,$10,$30 ; background
-  .byte $0f,$01,$21,$31
-  .byte $0f,$06,$16,$26
-  .byte $0f,$09,$19,$29
+.byte $0f,$00,$10,$30   ; background
+.byte $0f,$01,$21,$31
+.byte $0f,$06,$16,$26
+.byte $0f,$09,$19,$29
 
-  .byte $0f,$00,$10,$30 ; sprite
-  .byte $0f,$01,$21,$31
-  .byte $0f,$06,$16,$26
-  .byte $0f,$09,$19,$29
+.byte $0f,$00,$10,$30   ; sprites
+.byte $0f,$01,$21,$31
+.byte $0f,$06,$16,$26
+.byte $0f,$09,$19,$29
