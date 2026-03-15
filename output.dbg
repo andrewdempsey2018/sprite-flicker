@@ -1,11 +1,11 @@
 version	major=2,minor=0
 info	csym=0,file=7,lib=0,line=334,mod=1,scope=8,seg=9,span=287,sym=57,type=5
-file	id=0,name="src/main.asm",size=2541,mtime=0x69B6EA32,mod=0
+file	id=0,name="src/main.asm",size=2543,mtime=0x69B70D15,mod=0
 file	id=1,name="src/constants.inc",size=1078,mtime=0x69B6B918,mod=0
 file	id=2,name="src/header.inc",size=380,mtime=0x69B6B887,mod=0
 file	id=3,name="src/reset.asm",size=722,mtime=0x69B6C66E,mod=0
 file	id=4,name="src/controllers.asm",size=446,mtime=0x69B52B51,mod=0
-file	id=5,name="src/sprites.asm",size=2707,mtime=0x69B6EAD9,mod=0
+file	id=5,name="src/sprites.asm",size=2708,mtime=0x69B70D99,mod=0
 file	id=6,name="graphics.chr",size=8192,mtime=0x69B6946C,mod=0
 line	id=0,file=5,line=74,span=115
 line	id=1,file=0,line=25,span=191
@@ -665,7 +665,7 @@ sym	id=15,name="sleeping",addrsize=zeropage,size=1,scope=0,def=192,ref=51+24+274
 sym	id=16,name="TableSpriteGFX",addrsize=absolute,scope=0,def=111,ref=16,val=0x8230,seg=1,type=lab
 sym	id=17,name="TableYStartPos",addrsize=absolute,scope=0,def=102,ref=269,val=0x8220,seg=1,type=lab
 sym	id=18,name="TableXStartPos",addrsize=absolute,scope=0,def=149,ref=190,val=0x8210,seg=1,type=lab
-sym	id=19,name="TableSpritePalettes",addrsize=absolute,scope=0,def=231,ref=268,val=0x8200,seg=1,type=lab
+sym	id=19,name="TableSpriteAttributes",addrsize=absolute,scope=0,def=231,ref=268,val=0x8200,seg=1,type=lab
 sym	id=20,name="LoopThroughSprites",addrsize=absolute,scope=3,def=228,ref=50,val=0x80A3,seg=0,type=lab
 sym	id=21,name="DrawSprites",addrsize=absolute,size=153,scope=0,def=5,ref=121,val=0x8084,seg=0,type=lab
 sym	id=22,name="oam_address",addrsize=zeropage,size=2,scope=0,def=250,ref=167+164+22+73+10+259+186+98+56+133+110+300+298+181+279+305+207+67+120+310,val=0x51,seg=4,type=lab

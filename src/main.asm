@@ -115,7 +115,7 @@ load_palettes:
   ; prep sprites
   ldx #$00
 PrepSprites:
-  lda TableSpritePalettes, x
+  lda TableSpriteAttributes, x
   sta sprite_palette, x
   lda TableXStartPos, x
   sta sprite_x, x
