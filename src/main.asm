@@ -8,6 +8,7 @@
 sleeping: .res 1
 buttons_held: .res 1
 buttons_pressed: .res 1
+timer: .res 1
 
 .segment "CODE"
 
@@ -31,6 +32,8 @@ buttons_pressed: .res 1
   lda #$00
 
   jsr read_controller
+
+  inc timer
 
 ; ----------------------------------- ;
 ; PPU clean up section
@@ -107,6 +110,17 @@ load_palettes:
   sta PPUCTRL
   lda #%00011110        ; turn on screen
   sta PPUMASK
+
+  ; ----------------------------------- ;
+  ; prep sprites
+  ldx #$00
+  lda #$18
+  sta sprite_gfx, x
+  lda #50
+  sta sprite_x, x
+  lda #150
+  sta sprite_y, x
+  ; ----------------------------------- ;
 
 mainloop:
   jsr DrawSprites

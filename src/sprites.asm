@@ -1,8 +1,15 @@
 .segment "ZEROPAGE"
+
+; ----------------------------------- ;
+; sprite SOA
 sprite_x: .res NUM_SPRITES
 sprite_y: .res NUM_SPRITES
 sprite_palette: .res NUM_SPRITES
 sprite_gfx: .res NUM_SPRITES
+; ----------------------------------- ;
+
+zp_anim_offset: .res 1
+
 
 .segment "CODE"
 
@@ -14,44 +21,77 @@ sprite_gfx: .res NUM_SPRITES
   tya
   pha
 
-  ldx #$00              ; sprite index
+  ; ----------------------------------- ;
+  ; animate sprites
+  lda timer
+  and #%00011111        ; if it is a multiple of 32
+  bne :+
+  lda zp_anim_offset
+  eor #%00000100
+  sta zp_anim_offset
+:  
+  ; ----------------------------------- ;
 
   ; ----------------------------------- ;
   ; sprite 0
-  lda #$10              ; sprite y
+  ; update OAM
+  ; OAM: y, gfx, palette, x
+
+  ldx #$00              ; sprite index
+
+  lda sprite_y, x
   sta $0200
-  lda #$18              ; sprite image graphics
+  lda sprite_gfx, x
+  clc
+  adc zp_anim_offset
   sta $0201
-  lda #$00              ; sprite palette
+  lda sprite_palette, x
   sta $0202
-  lda #$10              ; sprite x
+  lda sprite_x, x
   sta $0203
 
-  lda #$10
+  lda sprite_y, x
   sta $0204
-  lda #$19
+  lda sprite_gfx, x
+  clc
+  adc zp_anim_offset
+  adc #1
   sta $0205
-  lda #$00
+  lda sprite_palette, x
   sta $0206
-  lda #$18
+  lda sprite_x, x
+  clc
+  adc #8
   sta $0207
 
-  lda #$18
+  lda sprite_y, x
+  clc
+  adc #8
   sta $0208
-  lda #$1A
+  lda sprite_gfx, x
+  clc
+  adc zp_anim_offset
+  adc #2
   sta $0209
-  lda #$00
+  lda sprite_palette, x
   sta $020A
-  lda #$10
+  lda sprite_x, x
   sta $020B
 
-  lda #$18
+  lda sprite_y, x
+  clc
+  adc #8
   sta $020C
-  lda #$1B
+  lda sprite_gfx, x
+  clc
+  adc zp_anim_offset
+  adc #3
   sta $020D
-  lda #$00
+  lda sprite_palette, x
   sta $020E
-  lda #$18
+  lda sprite_x, x
+  clc
+  adc #8
   sta $020F
   ; ----------------------------------- ;
 

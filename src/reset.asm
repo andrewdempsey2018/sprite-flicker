@@ -39,6 +39,10 @@ ResetSpriteSOA:
   cpx #$10
   bne ResetSpriteSOA
 
+  lda #$00
+  sta zp_anim_offset
+  sta timer
+
 vblankwait2:
   bit PPUSTATUS
   bpl vblankwait2
