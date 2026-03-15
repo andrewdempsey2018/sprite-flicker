@@ -42,6 +42,8 @@ ResetSpriteSOA:
   lda #$00
   sta zp_anim_offset
   sta timer
+  sta oam_address
+  sta oam_address+1
 
 vblankwait2:
   bit PPUSTATUS

@@ -120,14 +120,22 @@ load_palettes:
   sta sprite_x, x
   lda #150
   sta sprite_y, x
+
+  ldx #$01
+  lda #$10
+  sta sprite_gfx, x
+  lda #20
+  sta sprite_x, x
+  lda #100
+  sta sprite_y, x
   ; ----------------------------------- ;
 
 mainloop:
   jsr DrawSprites
 
 done:
-  ;loop
   inc sleeping
+  
 sleep:
   lda sleeping
   bne sleep

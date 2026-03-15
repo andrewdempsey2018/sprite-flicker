@@ -9,7 +9,7 @@ sprite_gfx: .res NUM_SPRITES
 ; ----------------------------------- ;
 
 zp_anim_offset: .res 1
-
+oam_address: .res 2
 
 .segment "CODE"
 
@@ -38,61 +38,88 @@ zp_anim_offset: .res 1
   ; OAM: y, gfx, palette, x
 
   ldx #$00              ; sprite index
+  ldy #$00              ; oam index
+  
+  lda #$00
+  sta oam_address
+  lda #$02
+  sta oam_address+1
 
+LoopThroughSprites:
   lda sprite_y, x
-  sta $0200
+  sta (oam_address), y
+  iny
   lda sprite_gfx, x
   clc
   adc zp_anim_offset
-  sta $0201
+  sta (oam_address), y
+  iny
   lda sprite_palette, x
-  sta $0202
+  sta (oam_address), y
+  iny
   lda sprite_x, x
-  sta $0203
+  sta (oam_address), y
+  iny
 
   lda sprite_y, x
-  sta $0204
+  sta (oam_address), y
+  iny
   lda sprite_gfx, x
   clc
   adc zp_anim_offset
   adc #1
-  sta $0205
+  sta (oam_address), y
+  iny
   lda sprite_palette, x
-  sta $0206
+  sta (oam_address), y
+  iny
   lda sprite_x, x
   clc
   adc #8
-  sta $0207
+  sta (oam_address), y
+  iny
 
   lda sprite_y, x
   clc
   adc #8
-  sta $0208
+  sta (oam_address), y
+  iny
   lda sprite_gfx, x
   clc
   adc zp_anim_offset
   adc #2
-  sta $0209
+  sta (oam_address), y
+  iny
   lda sprite_palette, x
-  sta $020A
+  sta (oam_address), y
+  iny
   lda sprite_x, x
-  sta $020B
+  sta (oam_address), y
+  iny
 
   lda sprite_y, x
   clc
   adc #8
-  sta $020C
+  sta (oam_address), y
+  iny
   lda sprite_gfx, x
   clc
   adc zp_anim_offset
   adc #3
-  sta $020D
+  sta (oam_address), y
+  iny
   lda sprite_palette, x
-  sta $020E
+  sta (oam_address), y
+  iny
   lda sprite_x, x
   clc
   adc #8
-  sta $020F
+  sta (oam_address), y
+  iny
+
+  inx
+  cpx #$10
+  bne LoopThroughSprites
   ; ----------------------------------- ;
 
   pla
