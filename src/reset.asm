@@ -46,6 +46,7 @@ ResetSpriteSOA:
   sta oam_address+1
   sta zp_nametable_pointer
   sta zp_nametable_pointer+1
+  sta sprite_cycle_on
 
 vblankwait2:
   bit PPUSTATUS

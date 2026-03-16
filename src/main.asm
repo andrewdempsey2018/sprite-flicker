@@ -10,6 +10,7 @@ sleeping: .res 1
 buttons_held: .res 1
 buttons_pressed: .res 1
 timer: .res 1
+event_timer: .res 1
 
 .segment "CODE"
 
@@ -143,6 +144,42 @@ vblankwait:             ; wait for another vblank before continuing
 mainloop:
   jsr DrawSprites
 
+  ; ----------------------------------- ;
+  ; demo script
+
+  lda event_timer
+  cmp #$02
+  bcc DontMove
+  ldx #0
+  inc sprite_y, x
+  inc sprite_x, x
+  
+  ldx #14
+  dec sprite_y, x
+  inc sprite_x, x
+
+  ldx #3
+  inc sprite_y, x
+  dec sprite_x, x
+
+  ldx #1
+  inc sprite_y, x
+  dec sprite_x, x
+DontMove:
+
+  lda timer
+  bne :+
+  inc event_timer
+:
+  
+  lda event_timer
+  cmp #$04
+  bne :+
+  lda #$01
+  sta sprite_cycle_on
+:
+; ----------------------------------- ;; ----------------------------------- ;
+
 done:
   inc sleeping
 
@@ -171,5 +208,5 @@ palettes:
                         ; sprites
   .byte $0F,$15,$16,$26
   .byte $0F,$27,$28,$28
-  .byte $0F,$29,$2a,$2b
+  .byte $0F,$29,$07,$2B
   .byte $0F,$21,$22,$23

@@ -10,6 +10,7 @@ sprite_gfx: .res NUM_SPRITES
 
 zp_anim_offset: .res 1
 oam_address: .res 2
+sprite_cycle_on: .res 1
 
 .segment "CODE"
 
@@ -31,11 +32,22 @@ oam_address: .res 2
   sta zp_anim_offset
 :  
   ; ----------------------------------- ;
-
+  ; rotate OAM to cause sprite flicker/sprite cycling
+  lda sprite_cycle_on
+  beq :+
+  lda timer
+  and #$03              ; rotate every 4 frames
+  asl
+  asl                   ; *4 (bytes per sprite)
+  tax                   ; starting sprite offset
+  jmp SetOAMIndex       ; so not use sprite flicker
+:
+  
   ; ----------------------------------- ;
   ; update OAM (OAM order: y, gfx, palette, x)
 
   ldx #$00              ; sprite index
+SetOAMIndex:
   ldy #$00              ; oam index
   
   lda #$00
