@@ -8,7 +8,7 @@ file	id=4,name="src/controllers.asm",size=446,mtime=0x69B52B52,mod=0
 file	id=5,name="src/sprites.asm",size=2656,mtime=0x69B7AB43,mod=0
 file	id=6,name="src/load_nametable.asm",size=715,mtime=0x69B7177C,mod=0
 file	id=7,name="src/background.asm",size=4757,mtime=0x69B7A96D,mod=0
-file	id=8,name="graphics.chr",size=8192,mtime=0x69B7B496,mod=0
+file	id=8,name="graphics.chr",size=8192,mtime=0x69B840D7,mod=0
 line	id=0,file=6,line=34,span=267
 line	id=1,file=6,line=46,span=277
 line	id=2,file=7,line=34,span=215
